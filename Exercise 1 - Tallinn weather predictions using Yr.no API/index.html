@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="./styles.css">
+    <title>Yehor Kiiakh - Weahter app</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="content">
+            <h1>WEAHTER - YEHOR KIIAKH TA-24B</h1>
+            <p class="content-text">
+
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const url = "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=59.4370&lon=24.7536";
+        const content = document.querySelector(".content-text");
+
+        async function getWeather() {
+            const response = await fetch(url, {
+                headers: {
+                    "User-Agent": "weather-app-student-project"
+                }
+            });
+
+            const data = await response.json();
+            const timeseries = data.properties.timeseries;
+
+            for (let i = 0; i < 5; i++) {
+                const time = timeseries[i].time;
+                const temperature = timeseries[i].data.instant.details.air_temperature;
+
+                content.innerHTML += time + " " + Math.round(temperature) + "°C<br><br>";
+            }
+        }
+
+        getWeather();
+    </script>
+</body>
+
+</html>
